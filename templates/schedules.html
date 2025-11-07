@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Schedules{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Schedules</h1>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</div>
+
+<div class="row">
+    {% for instance in activity_instances %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card border-0" style="background: linear-gradient(135deg, #ffffff 0%, #e5f3f7 100%);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title fw-bold mb-0 text-dark">{{ instance.activity_id.title }}</h5>
+                    
+                </div>
+                
+                <p class="card-text text-muted mb-3">
+                    {{ instance.activity_id.description }}
+                </p>
+                
+                <div class="small text-muted">
+                    <div class="mb-2">
+    <strong>Schedule:</strong><br>
+    {{ instance.start_time[:10].split('-')[2] }}/{{ instance.start_time[:10].split('-')[1] }}/{{ instance.start_time[:10].split('-')[0] }} 
+    {{ (instance.start_time[11:16].split(':')[0]|int) % 12 or 12 }}:{{ instance.start_time[11:16].split(':')[1] }} 
+    {{ 'AM' if instance.start_time[11:16].split(':')[0]|int < 12 else 'PM' }}<br>
+    to 
+    {{ instance.end_time[:10].split('-')[2] }}/{{ instance.end_time[:10].split('-')[1] }}/{{ instance.end_time[:10].split('-')[0] }} 
+    {{ (instance.end_time[11:16].split(':')[0]|int) % 12 or 12 }}:{{ instance.end_time[11:16].split(':')[1] }} 
+    {{ 'AM' if instance.end_time[11:16].split(':')[0]|int < 12 else 'PM' }}
+</div>
+                    
+                    <div class="mb-2">
+                        <strong>Created by:</strong> {{ instance.created_by.username }}
+                    </div>
+                    
+                    <div class="mb-2">
+                        <strong>Activity Priority:</strong> 
+                        <span class="badge bg-{{ 'danger' if instance.activity_id.priority_level == 'High' else 'warning' if instance.activity_id.priority_level == 'Medium' else 'info' }} p-1">
+                            {{ instance.activity_id.priority_level }}
+                        </span>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <small class="text-muted">
+                    Created: {{ instance.created_at[:10] }}
+                </small>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="card border-0 text-center py-4" style="background: linear-gradient(135deg, #ffffff 0%, #e5f1f5 100%);">
+            <div class="card-body">
+                <i class="fas fa-calendar-alt fa-2x text-muted mb-3"></i>
+                <h5 class="text-muted">No Schedules Found</h5>
+                <p class="text-muted mb-3">There are no scheduled activities to display.</p>
+                <button class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> Create Schedule
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.card-body {
+    padding: 1.25rem;
+}
+.card-footer {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+}
+.badge {
+    font-size: 0.7em;
+}
+.card-title {
+    font-size: 1.2em;
+    line-height: 1.3;
+}
+</style>
+{% endblock %}

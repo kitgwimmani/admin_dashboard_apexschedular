@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - User Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>
+  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" style="width:50px; height:50px; vertical-align:middle; margin-right:10px;">
+  Dashboard
+</h1>
+            <div class="btn-group">
+                <a href="{{ url_for('users') }}" class="btn btn-primary">
+                    <i class="fas fa-users"></i> Manage Users
+                </a>
+                <a href="{{ url_for('activities') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-clock"></i> Meetings and Tasks
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">Welcome!</h4>
+                        <p class="card-text">You are logged in as {{ user.username }}</p>
+                    </div>
+                    <div class="display-4">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">Role</h4>
+                        <p class="card-text text-capitalize">{{ user.role }}</p>
+                    </div>
+                    <div class="display-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">Status</h4>
+                        <p class="card-text">{{ 'Active' if user.isActive else 'Inactive' }}</p>
+                    </div>
+                    <div class="display-4">
+                        <i class="fas fa-{{ 'check-circle' if user.is_active else 'times-circle' }}"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-primary bg-light mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">Users</h4>
+                        <p class="card-text">
+                            Admins: <b>{{ admin_users }}</b>
+                        </p>
+                    </div>
+                    <div class="display-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card text-primary bg-light mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">Activities</h4>
+                        <p class="card-text text-capitalize"><b>{{ total_activities }}</b></p>
+                    </div>
+                    <div class="display-4">
+                        <i class="fas fa-running"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card  text-primary bg-light mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">Schedules</h4>
+                        <p class="card-text"><b>{{ total_schedules }}</b></p>
+                    </div>
+                    <div class="display-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0"><i class="fas fa-info-circle"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>User Management</h6>
+                        <ul>
+                            <li>View all users in the system</li>
+                            <li>Change user roles (Admin only)</li>
+                            <li>Activate/deactivate users</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Profile Management</h6>
+                        <ul>
+                            <li>Update your profile information</li>
+                            <li>Change username and email</li>
+                            <li>View your account details</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
